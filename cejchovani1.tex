@@ -1,0 +1,188 @@
+%%% Hlavní soubor. Zde se definují základní parametry a odkazuje se na ostatní části. %%%
+
+%% Verze pro jednostranný tisk:
+% Okraje: levý 40mm, pravý 25mm, horní a dolní 25mm
+% (ale pozor, LaTeX si sám přidává 1in)
+\documentclass[12pt,a4paper]{report}
+\setlength\textwidth{130mm}
+\setlength\textheight{247mm}
+\setlength\oddsidemargin{15mm}
+\setlength\evensidemargin{15mm}
+\setlength\topmargin{0mm}
+\setlength\headsep{0mm}
+\setlength\headheight{0mm}
+% \openright zařídí, aby následující text začínal na pravé straně knihy
+\let\openright=\clearpage
+
+%% Pokud tiskneme oboustranně:
+% \documentclass[12pt,a4paper,twoside,openright]{report}
+% \setlength\textwidth{145mm}
+% \setlength\textheight{247mm}
+% \setlength\oddsidemargin{15mm}
+% \setlength\evensidemargin{0mm}
+% \setlength\topmargin{0mm}
+% \setlength\headsep{0mm}
+% \setlength\headheight{0mm}
+% \let\openright=\cleardoublepage
+
+%% Pokud používáte csLaTeX (doporučeno):
+%\usepackage{czech}
+%% Pokud nikoliv:
+\usepackage[czech]{babel}
+%\usepackage[T1]{fontenc}
+\usepackage{mwe}
+
+%% Použité kódování znaků: obvykle latin2, cp1250 nebo utf8:
+\usepackage[utf8]{inputenc}
+
+%% Ostatní balíčky
+\usepackage{graphicx}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{ mathrsfs }
+
+%% Balíček hyperref, kterým jdou vyrábět klikací odkazy v PDF,
+%% ale hlavně ho používáme k uložení metadat do PDF (včetně obsahu).
+%% POZOR, nezapomeňte vyplnit jméno práce a autora.
+\usepackage[ps2pdf,unicode]{hyperref}   % Musí být za všemi ostatními balíčky
+\hypersetup{pdftitle=Název práce}
+\hypersetup{pdfauthor=Jméno Příjmení}
+
+%%% Drobné úpravy stylu
+
+% Tato makra přesvědčují mírně ošklivým trikem LaTeX, aby hlavičky kapitol
+% sázel příčetněji a nevynechával nad nimi spoustu místa. Směle ignorujte.
+\makeatletter
+\def\@makechapterhead#1{
+  {\parindent \z@ \raggedright \normalfont
+   \Huge\bfseries \thechapter. #1
+   \par\nobreak
+   \vskip 20\p@
+}}
+\def\@makeschapterhead#1{
+  {\parindent \z@ \raggedright \normalfont
+   \Huge\bfseries #1
+   \par\nobreak
+   \vskip 20\p@
+}}
+\makeatother
+
+% Toto makro definuje kapitolu, která není očíslovaná, ale je uvedena v obsahu.
+\def\chapwithtoc#1{
+\chapter*{#1}
+\addcontentsline{toc}{chapter}{#1}
+}
+
+\begin{document}
+
+% Trochu volnější nastavení dělení slov, než je default.
+\lefthyphenmin=2
+\righthyphenmin=2
+
+%%% Titulní strana práce
+
+\pagestyle{empty}
+
+\begin{center}
+\LARGE Základy měření 
+\vfill
+{\LARGE 2.2.5 Cejchování ručkového voltmetru }
+
+\vfill
+
+\end{center}
+
+13.3.2017 \hfill Vít Teřl
+
+\newpage
+
+\section*{Zadání} 
+\begin{enumerate}
+    \item Zjistěte deklarovanou třídu přesnosti, rozsahy a měřící systém předloženého 
+měřidla. Posuďte jeho celkový mechanický a elektrický stav.
+    \item U voltmetru vyberte jeden stejnosměrný rozsah a zkontrolujte jej pomocí 
+normálového přístroje. Vyneste korekční křivku.
+    \item Ze zjištěných hodnot dopočítejte třídu přesnosti a porovnejte s
+hodnotou na stupnici 
+přístroje.
+\end{enumerate}
+
+\section*{Teoretický úvod}
+Pro zjišťování přesnosti a správnosti měření napětí jsou normami předepsaná pravidla. Ověřování funkce a kalibrace voltmetru nazýváme cejchováni. Zjišťují se výchylky například dvou měřících přístrojů při postupném zvyšování měřené veličiny a při následném snižování měřené veličiny. Před začátkem měření je si třeba určit, taký měřící přístroj je normálový a jaký je ověřovaný. Pak pro ověřovaný voltmetr můžeme napsat vztah:
+\begin{equation}
+    \text{U}_s = \frac{\text{U}_{s+}+\text{U}_{s-}}{2},
+\end{equation}
+kde  $\text{U}_{S+}[\text{V}]$ - skutečná hodnota, napětí změřené normálem ve směru nahoru,
+    $\text{U}_{S-}[\text{V}]$ - skutečná hodnota, napětí změřené normálem ve směru dolů,
+    $\text{U}_S[\text{V}]$  - aritmetický průměr hodnot $U_{S+}$ a $U_{S-}$. \\
+A korekci vypočteme:
+\begin{equation}
+    K=U_S-U_N,
+\end{equation}
+kde  $U_N[\text{V}]$ - nastavovaná hodnota a $K[\text{V}]$ - korekce. \\
+Dopočtení třídy přesnosti pro dané měřidlo:
+\begin{equation}
+    t_p = \frac{|\triangle_{max}|}{M}100,
+    \label{tp}
+\end{equation}
+kde M je rozsah.
+
+\section*{Postup měření}
+Daný rozsah se rozdělí na celistvý počet intervalů. Před připojením napájecího 
+napětí se zkontroluje nula přístroje.
+Zvolené hodnoty se nastavují na ověřovaném přístroji a skutečná napětí pak odečítají 
+z
+normálového voltmetru. Pro vymezení tření v
+ložiskách elektromechanického přístroje se 
+měření provádí dvakrát (ve směru zvětšování napětí a ve směru dolů). Při nastavování hodnot 
+je třeba dbát, abychom nastavovanou hodnotu nepřesáhli a nevraceli se z
+druhé strany. V 
+takovém případě je nutné vrátit se o delší úsek stupnice a najíždět na nastavovanou hodnotu 
+znova. 
+\section*{Měřící přístroje}
+\begin{itemize}
+    \item Vn - cejchované měřidlo – nutno uvést typ a výrobní/inventární číslo
+    \item Vs - normálové měřidlo – nutno uvést typ a třídu přesnosti
+    \item P  - potenciometr
+    \item SZ - stabilizovaný zdroj
+\end{itemize}
+
+\section*{Zpracování výsledků}
+\subsection*{Naměřené a dopočítané hodnoty}
+
+\makebox[\textwidth][c]{
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    U_N[V] & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\
+    \hline
+    \alpha[d] & 10 & 20 & 30 & 40 & 50 & 60 & 70 & 80 & 90 & 100\\
+    \hline
+    U_{S+}[V] & 1,00908 & 1,9883 & 2,976 & 3,964 & 4,9708 & 5,9233 & 6,9563 & 7,9363  & 8,9325 & 9,9635 \\
+    \hline
+    U_{S-}[V] & 1,04280  &2,0268 &3,0096 &3,9836 &4,9683 &5,9695 &6,9526 &7,9545 &8,9569& 9,964 \\
+    \hline
+    U_S[V] & 1,02594 &2,00755 &2,9928 &3,9738& 4,96955 &5,9464 &6,95445 &7,9454 &8,9447& 9,96375  \\
+    \hline
+    K[V] &  0,02594 &0,00755 &-0,0072 &-0,0262 &-0,03045 &-0,0536&-0,04555 & -0,0546 &-0,0553& -0,03625\\
+    \hline
+\end{tabular}
+}
+\noindent
+    $\alpha[d]$ - výchylka cejchovaného měřidla, v
+dílcích stupnice \\
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.9\textwidth{}]{korekce.png}
+    \caption{Koreční křivka}
+    \label{fig:korecke}
+\end{figure}
+
+\noindent
+Dopočtení třídy přesnosti pro dané měřidlo dosazením do (\ref{tp}) získáme $t_p=0,553$.
+
+
+\section*{Závěr}
+Zkoumali jsme třídu přesnosti ručkového voltmetru, kontrolováním rozdílu od normálového přístroje. Vynesli jsme korekční křivku a vypočetli reálnou třídu přesnosti $t_p=0,553$ s porovnáním s udanou hodnotou na přístroji $t_p=0,2$  zjistíme, že přístroj už zcela nedodržuje tuto třídu přesnosti. 
+
+\end{document}
